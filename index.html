@@ -83,8 +83,8 @@
             "valueLineBalloonEnabled": true,
             "cursorPosition" : "mouse",
             "zoomable" : true,
-            "pan": false,
-            "panEventsEnabled": false,
+            "pan": true,
+            "panEventsEnabled": true,
           },
           "categoryField": "date",
           "categoryAxis": {
@@ -135,24 +135,6 @@
         var chartDiv = document.getElementById("chartdiv");
         chartDiv.addEventListener("click", handleClick); 
 
-       
-        document.addEventListener("keydown", function(event) {
-            // Check if the key pressed is the "Enter" key
-            if (event.key === "Control") {
-                // Do something when the "Enter" key is pressed
-                chart.chartCursor.pan = true;
-                chart.chartCursor.panEventsEnabled = true;
-                chartDiv.removeEventListener('click', handleClick);
-            }
-        });
-        document.addEventListener("keyup", function(event) {
-            if (event.key === "Control") {
-                // Do something when the "Enter" key is pressed
-                chart.chartCursor.pan = false;
-                chart.chartCursor.panEventsEnabled = false;
-                chartDiv.addEventListener("click", handleClick); 
-            }
-        });
         function handleClick(event) {
             console.log("event = ", event);
             var mouseX = event.clientX - chart.marginRight + chart.autoMarginOffset;
@@ -169,7 +151,7 @@
             for (var i = 0; i < valueAxes.length; i++) {
                 var axis = valueAxes[i];
                 var coordinateY = parseInt(axis.coordinateToValue((mouseY - chartTop - axis.offset)));
-            console.log("availableX = ", availableX, "mouseX = ", mouseX, "chartLeft = ", chartLeft, "axis.offset = ", axis.offset, "chartWidth = ", chartWidth);
+            // console.log("availableX = ", availableX, "mouseX = ", mouseX, "chartLeft = ", chartLeft, "axis.offset = ", axis.offset, "chartWidth = ", chartWidth);
 
                 if (coordinateY !== undefined) {
                     availableY = coordinateY;
