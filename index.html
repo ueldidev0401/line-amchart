@@ -1,193 +1,195 @@
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8"> 
-      <style type="text/css">
-		#chartdiv {
-			width	: 1500;
-			height	: 500px;
-		}		
-		.tooltip {
-			display: none;
-			position: absolute;
-			background-color: #181717;
-			color : white;
-			width : 220px;
-			padding: 5px;
-			text-align: center;
-			border-radius: 6px;
-			z-index: 1;
-			font-size: 12px;
-			font-family: 'Courier New', Courier, monospace;
-		}															
-      </style>	
-    </head>
-      <body>
-        <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-		<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-		<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-		<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-		<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <style type="text/css">
+      #chartdiv {
+          width	: 1500;
+          height	: 500px;
+      }		
+      .tooltip {
+          display: none;
+          position: absolute;
+          background-color: #181717;
+          color : white;
+          width : 220px;
+          padding: 5px;
+          text-align: center;
+          border-radius: 6px;
+          z-index: 1;
+          font-size: 12px;
+          font-family: 'Courier New', Courier, monospace;
+      }															
+    </style>	
+  </head>
+    <body>
+      <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+      <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+      <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+      <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+      <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 
-		<div style="text-align: center;"> Example Graph</div>
-		<div id="chartdiv"></div>	
-		<div class="tooltip"></div>		
+      <div style="text-align: center;"> Example Graph</div>
+      <div id="chartdiv"></div>	
+      <div class="tooltip"></div>		
 
-        <script>
-		var visits = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,270000000,47000000,25000000,50100000,155000000 ];
-		var chartData = generateChartData();
-		var newDate = [];
-		var newData = [];
-		var chart = AmCharts.makeChart("chartdiv", {
-			"type": "serial",
-			"theme": "light",
-			"marginRight": 80,
-			"autoMarginOffset": 20,
-			"marginTop": 7,
-			"dataProvider": chartData,
-			"valueAxes": [{
-				"axisAlpha": 0.2,
-				"dashLength": 1,
-				"position": "left"
-			}],
-			"mouseWheelZoomEnabled": true,
-			"graphs": [{
-				"id": "g1",
-				"balloonText": "[[value]]",
-				"bullet": "round",
-				"bulletBorderAlpha": 1,
-				"bulletColor": "#FFFFFF",
-				"hideBulletsCount": 50,
-				"title": "red line",
-				"valueField": "visits",
-				"useLineColorForBulletBorder": true,
-				"balloon":{
-					"drop":true
-				}
-			}],
-			"chartScrollbar": {
-				"autoGridCount": false,
-				"graph": "g1",
-				"scrollbarHeight": 40
-			},
-			"chartCursor": {
-			"limitToGraph":"g1"
-			},
-			"categoryField": "date",
-			"categoryAxis": {
-				"parseDates": true,
-				"axisColor": "#DADADA",
-				"dashLength": 1,
-				"minorGridEnabled": true
-			},
-			"export": {
-				"enabled": true
-			}
-		});
+      <script>
+      var visits = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,270000000,47000000,25000000,50100000,155000000 ];
+      var chartData = generateChartData();
+      var newDate = [];
+      var newData = [];
+      var chart = AmCharts.makeChart("chartdiv", {
+          "type": "serial",
+          "theme": "light",
+          "marginRight": 80,
+          "autoMarginOffset": 20,
+          "marginTop": 7,
+          "dataProvider": chartData,
+          "valueAxes": [{
+              "axisAlpha": 0.2,
+              "dashLength": 1,
+              "position": "left"
+          }],
+          "mouseWheelZoomEnabled": true,
+          "graphs": [{
+              "id": "g1",
+              "balloonText": "[[value]]",
+              "bullet": "round",
+              "bulletBorderAlpha": 1,
+              "bulletColor": "#FFFFFF",
+              "hideBulletsCount": 50,
+              "title": "red line",
+              "valueField": "visits",
+              "useLineColorForBulletBorder": true,
+              "balloon":{
+                  "drop":true
+              }
+          }],
+          "chartScrollbar": {
+              "autoGridCount": false,
+              "graph": "g1",
+              "scrollbarHeight": 40
+          },
+          "chartCursor": {
+          "limitToGraph":"g1"
+          },
+          "categoryField": "date",
+          "categoryAxis": {
+              "parseDates": true,
+              "axisColor": "#DADADA",
+              "dashLength": 1,
+              "minorGridEnabled": true
+          },
+          "export": {
+              "enabled": true
+          }
+      });
 
-		chart.addListener("rendered", zoomChart);
-		zoomChart();
+      chart.addListener("rendered", zoomChart);
+      zoomChart();
 
-		// this method is called when chart is first inited as we listen for "rendered" event
-		function zoomChart() {
-			// different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-			chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
-		}
+      // this method is called when chart is first inited as we listen for "rendered" event
+      function zoomChart() {
+          // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+          chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+      }
 
 
-		// generate some random data, quite different range
-		function generateChartData() {
-			var chartData = [];
-			var firstDate = new Date();
-			
-			firstDate.setDate(firstDate.getDate() - 5);
+      // generate some random data, quite different range
+      function generateChartData() {
+          var chartData = [];
+          var firstDate = new Date();
+          
+          firstDate.setDate(firstDate.getDate() - 5);
 
-			for (var i = 0; i < visits.length + 5; i++) {
-				// we create date objects here. In your data, you can have date strings
-				// and then set format of your dates using chart.dataDateFormat property,
-				// however when possible, use date objects, as this will speed up chart rendering.
-				newDate = new Date(firstDate);
-				newDate.setDate(newDate.getDate() + i);
+          for (var i = 0; i < visits.length + 5; i++) {
+              // we create date objects here. In your data, you can have date strings
+              // and then set format of your dates using chart.dataDateFormat property,
+              // however when possible, use date objects, as this will speed up chart rendering.
+              newDate = new Date(firstDate);
+              newDate.setDate(newDate.getDate() + i);
 
-				// var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
+              // var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
 
-				chartData.push({
-					date: newDate,
-					visits: visits[i]
-				});
-			}
-			return chartData;
-		}
-		
-		var chartDiv = document.getElementById("chartdiv");
-		
-		chartDiv.addEventListener("click", function(event) {
-			var mouseX = event.clientX - chart.marginRight - chart.autoMarginOffset;
-			var mouseY = event.clientY;
-			var chartLeft = chartDiv.getBoundingClientRect().left;
-			var chartTop = chartDiv.getBoundingClientRect().top;
-			var chartWidth = chartDiv.offsetWidth;
-			var valueAxes = chart.valueAxes;
-			var availableX = chartData[chartData.length - 5].date;
-			var xAxis = chart.categoryAxis;
-			var availableX = Math.floor(xAxis.dateToCoordinate(availableX));
-			var availableY = null;
-			const tooltip = document.querySelector('.tooltip');
+              chartData.push({
+                  date: newDate,
+                  visits: visits[i]
+              });
+          }
+          return chartData;
+      }
+      
+      var chartDiv = document.getElementById("chartdiv");
+      
+      chartDiv.addEventListener("click", function(event) {
+          var mouseX = event.clientX - chart.marginRight - chart.autoMarginOffset;
+          var mouseY = event.clientY;
+          var chartLeft = chartDiv.getBoundingClientRect().left;
+          var chartTop = chartDiv.getBoundingClientRect().top;
+          var chartWidth = chartDiv.offsetWidth;
+          var valueAxes = chart.valueAxes;
+          var availableXdate = chartData[chartData.length - 4].date;
+          var xAxis = chart.categoryAxis;
+          var availableX = Math.floor(xAxis.dateToCoordinate(availableXdate));
+          var availableY = null;
+          const tooltip = document.querySelector('.tooltip');
 
-			for (var i = 0; i < valueAxes.length; i++) {
-				var axis = valueAxes[i];
+          for (var i = 0; i < valueAxes.length; i++) {
+              var axis = valueAxes[i];
 
-				var coordinateY = parseInt(axis.coordinateToValue((mouseY - chartTop - axis.offset - chart.chartScrollbar.scrollbarHeight)));
-				if (coordinateY !== undefined) {
-					availableY = coordinateY;
-					break;
-				}
-			}
+              var coordinateY = parseInt(axis.coordinateToValue((mouseY - chartTop - axis.offset - chart.chartScrollbar.scrollbarHeight)));
+              if (coordinateY !== undefined) {
+                  availableY = coordinateY;
+                  break;
+              }
+          }
 
-			if(mouseX - 10 <= availableX && mouseX + 10 >= availableX) {
-				visits.push(availableY);
-				chartData = generateChartData();
-				chart.dataProvider = chartData;
-				chart.validateData();
-			}
-		});
-		chartDiv.addEventListener("mousemove", function(event) {
-			var mouseX = event.clientX - chart.marginRight - chart.autoMarginOffset;
-			var mouseY = event.clientY;
-			var chartLeft = chartDiv.getBoundingClientRect().left;
-			var chartTop = chartDiv.getBoundingClientRect().top;
-			var chartWidth = chartDiv.offsetWidth;
-			var valueAxes = chart.valueAxes;
-			var availableX = chartData[chartData.length - 5].date;
-			var xAxis = chart.categoryAxis;
-			var availableX = Math.floor(xAxis.dateToCoordinate(availableX));
-			var availableY = null;
-			const tooltip = document.querySelector('.tooltip');
+          if(mouseX - 10 <= availableX && mouseX + 10 >= availableX) {
+              visits.push(availableY);
+              chartData = generateChartData();
+              chart.dataProvider = chartData;
+              chart.validateData();
+          }
+      });
+      chartDiv.addEventListener("mousemove", function(event) {
+          var mouseX = event.clientX - chart.marginRight - chart.autoMarginOffset;
+          var mouseY = event.clientY;
+          var chartLeft = chartDiv.getBoundingClientRect().left;
+          var chartTop = chartDiv.getBoundingClientRect().top;
+          var chartWidth = chartDiv.offsetWidth;
+          var valueAxes = chart.valueAxes;
+          var availableXdate = chartData[chartData.length - 4].date;
+          console.log("chartData = ", chartData);
+          var xAxis = chart.categoryAxis;
+          var availableX = Math.floor(xAxis.dateToCoordinate(availableXdate));
+          var availableY = null;
+          const tooltip = document.querySelector('.tooltip');
 
-			for (var i = 0; i < valueAxes.length; i++) {
-				var axis = valueAxes[i];
+          for (var i = 0; i < valueAxes.length; i++) {
+              var axis = valueAxes[i];
 
-				var coordinateY = parseInt(axis.coordinateToValue((mouseY - chartTop - axis.offset - chart.chartScrollbar.scrollbarHeight)));
-				if (coordinateY !== undefined) {
-					availableY = coordinateY;
-					break;
-				}
-			}
+              var coordinateY = parseInt(axis.coordinateToValue((mouseY - chartTop - axis.offset - chart.chartScrollbar.scrollbarHeight)));
+              if (coordinateY !== undefined) {
+                  availableY = coordinateY;
+                  break;
+              }
+          }
 
-			if(mouseX - 10 <= availableX && mouseX + 10 >= availableX) {
-				tooltip.style.left = event.clientX + 30 + 'px';
-				tooltip.style.top = mouseY + 'px';
-				tooltip.innerHTML = '<span class="tooltiptext">Y-axis : '+ parseInt(availableY) +'</span>';
-				tooltip.style.display = 'block';
-			}
-			else {
-				tooltip.style.display = 'none';
-			}
-		})
-		chartDiv.addEventListener("mouseleave", function(event) {
-			// Do something when the mouse leaves the div element, for example:
-			console.log("Mouse left the div element");
-		});
-        </script>
-      </body>
-  </html>
+          console.log("mouseX = ", mouseX, "availableX = ", availableX);
+          if(mouseX - 10 <= availableX && mouseX + 10 >= availableX) {
+              tooltip.style.left = event.clientX + 'px';
+              tooltip.style.top = mouseY + 'px';
+              tooltip.innerHTML = '<span class="tooltiptext">Y-axis : '+ parseInt(availableY) +'</span>';
+              tooltip.style.display = 'block';
+          }
+          else {
+              tooltip.style.display = 'none';
+          }
+      })
+      chartDiv.addEventListener("mouseleave", function(event) {
+          // Do something when the mouse leaves the div element, for example:
+          console.log("Mouse left the div element");
+      });
+      </script>
+    </body>
+</html>
