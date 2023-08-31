@@ -1,0 +1,25 @@
+{
+  "name": "line-amchart",
+  "version": "0.1.1",
+  "description": "An amchart library to draw line charts easily",
+  "main": "amchart.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asixdev0082/line-amchart"
+  },
+  "dependencies": {
+    "d3": "*"
+    },
+  "keywords": [
+    "amchart",
+    "line",
+    "chart",
+    "visualization"
+  ],
+  "author": "Esteban D",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/asixdev0082/line-amchart/issues"
+  },
+  "homepage": "https://github.com/asixdev0082/line-amchart/"
+}
