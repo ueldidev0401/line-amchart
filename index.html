@@ -121,11 +121,13 @@
             
              var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-console.log("event = ", event);
+console.log("event = ", chart);
                 // var date = xAxis.positionToDate(event.clientX).getTime();
-                var mouseX = yAxis.coordinateToPosition(event.clientY + 20);
-                var value = Math.floor(yAxis.positionToValue(mouseX));
-console.log("event = ", event.clientY);
+                var mouseX = xAxis.coordinateToPosition(event.clientX - chartDiv.getBoundingClientRect());
+                var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top);
+
+                var value = Math.floor(yAxis.positionToValue(mouseY));
+console.log("event = ", Math.floor(xAxis.positionToDate(mouseX)));
                 // series.pushDataItem({date : date, value : value})
                 values.push(value);
                 chartData = generateChartData();
