@@ -9,7 +9,7 @@
         }
 
         #chartdiv {
-            width: 100%;
+            width: 1500;
             height: 500px;
         }															
     </style>	
@@ -26,6 +26,7 @@
             root.setThemes([ am5themes_Animated.new(root) ]);
 
             var values = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,270000000,47000000,25000000,50100000,155000000 ];
+            // var values = [12,9,17,11,25];
             var newDate = [];
             var chartData = generateChartData();
             function generateChartData() {
@@ -92,16 +93,7 @@
                 valueYField: "value",
                 valueXField: "date"
             }));
-            var chartDiv = document.getElementById("chartdiv");
             series.data.setAll(chartData);
-console.log("chartData = ", chartData);
-            //Add a new data Point
-            chart.plotContainer.events.on("click", function(){
-console.log("event = ", event);
-                var date = xAxis.positionToDate(event.clientX);
-                var value = yAxis.positionToValue(event.clientY);
-
-            });
 
             var tooltip = am5.Tooltip.new(root, {
                 pointerOrientation: "horizontal"
@@ -125,6 +117,22 @@ console.log("event = ", event);
             var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
              xAxis: xAxis,
             }));
+             //Add a new data Point
+            
+             var chartDiv = document.getElementById("chartdiv");
+            chart.plotContainer.events.on("click", function(){
+console.log("event = ", event);
+                // var date = xAxis.positionToDate(event.clientX).getTime();
+                var mouseX = yAxis.coordinateToPosition(event.clientY + 20);
+                var value = Math.floor(yAxis.positionToValue(mouseX));
+console.log("event = ", event.clientY);
+                // series.pushDataItem({date : date, value : value})
+                values.push(value);
+                chartData = generateChartData();
+                series.data.setAll(chartData);
+
+console.log("chartData = ", chartData);
+            });
             
             // Make stuff animate on load
             // https://www.amcharts.com/docs/v5/concepts/animations/
