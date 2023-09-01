@@ -58,7 +58,7 @@
             // Show overlay when wheel is used over chart
                 ev.originalEvent.preventDefault();
                 chart.set("wheelX", "panX");
-                chart.set("wheelY", "zoomX");
+                chart.set("wheelY", "zoomXY");
 
             });
 
@@ -123,11 +123,11 @@
             chart.plotContainer.events.on("click", function(){
 console.log("event = ", chart);
                 // var date = xAxis.positionToDate(event.clientX).getTime();
-                var mouseX = xAxis.coordinateToPosition(event.clientX - chartDiv.getBoundingClientRect());
+                var mouseX = xAxis.coordinateToPosition(event.clientX - chartDiv.getBoundingClientRect().left);
                 var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top);
 
                 var value = Math.floor(yAxis.positionToValue(mouseY));
-console.log("event = ", Math.floor(xAxis.positionToDate(mouseX)));
+console.log("event = ", new Date(Math.floor(xAxis.positionToDate(mouseX))));
                 // series.pushDataItem({date : date, value : value})
                 values.push(value);
                 chartData = generateChartData();
