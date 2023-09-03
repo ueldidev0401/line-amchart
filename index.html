@@ -39,7 +39,10 @@
                     newDate.setDate(newDate.getDate() + i);
                     chartData.push({
                         date: newDate.getTime(),
-                        value: values[i]
+                        value: values[i],
+                        strokeSettings: {
+                            stroke: am5.color("#9ed0f7"),
+                        }
                     });
                 }
                 return chartData;
@@ -93,6 +96,10 @@
                 valueYField: "value",
                 valueXField: "date"
             }));
+            series.strokes.template.setAll({
+                strokeWidth: 2,
+                templateField: "strokeSettings"
+            });
             series.data.setAll(chartData);
 
             var tooltip = am5.Tooltip.new(root, {
@@ -121,22 +128,22 @@
             
             var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-                var dateX = xAxis.coordinateToPosition(event.clientX - 100);
+                var dateX = xAxis.coordinateToPosition(event.clientX - 150);
                 var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
+console.log("org chartData = ", chartData);
 
                 var value = Math.floor(yAxis.positionToValue(mouseY));
-
-console.log("Math.floor(xAxis.positionToDate(dateX) = ", Math.floor(xAxis.positionToDate(dateX)));
+console.log("Math.floor(xAxis.positionToDate(dateX)) = ", Math.floor(xAxis.positionToDate(dateX)));
                 if(chartData[chartData.length - 3].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 4].date <= Math.floor(xAxis.positionToDate(dateX))) {
                     values.push(value);
-                    chartData = generateChartData();
-                    series.data.setAll(chartData);
                 }
-console.log("chartData = ", chartData);
-
-            });
-            series.events.on("over", (event) => {
-console.log("hover event = ", event);
+                else if(chartData[chartData.length - 4].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 5].date <= Math.floor(xAxis.positionToDate(dateX))) {
+                    values.pop();
+                    values.push(value);
+                }
+                chartData = generateChartData();
+                chartData[chartData.length - 4].strokeSettings.stroke = am5.color(0x990000);
+                series.data.setAll(chartData);
             });
             
             // Make stuff animate on load
