@@ -115,25 +115,28 @@
             // Add cursor
             // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
             var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-             xAxis: xAxis,
+                xAxis: xAxis,
             }));
              //Add a new data Point
             
-             var chartDiv = document.getElementById("chartdiv");
+            var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-console.log("event = ", chart);
-                // var date = xAxis.positionToDate(event.clientX).getTime();
-                var mouseX = xAxis.coordinateToPosition(event.clientX - chartDiv.getBoundingClientRect().left);
-                var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top);
+                var dateX = xAxis.coordinateToPosition(event.clientX - 100);
+                var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
 
                 var value = Math.floor(yAxis.positionToValue(mouseY));
-console.log("event = ", new Date(Math.floor(xAxis.positionToDate(mouseX))));
-                // series.pushDataItem({date : date, value : value})
-                values.push(value);
-                chartData = generateChartData();
-                series.data.setAll(chartData);
 
+console.log("Math.floor(xAxis.positionToDate(dateX) = ", Math.floor(xAxis.positionToDate(dateX)));
+                if(chartData[chartData.length - 3].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 4].date <= Math.floor(xAxis.positionToDate(dateX))) {
+                    values.push(value);
+                    chartData = generateChartData();
+                    series.data.setAll(chartData);
+                }
 console.log("chartData = ", chartData);
+
+            });
+            series.events.on("over", (event) => {
+console.log("hover event = ", event);
             });
             
             // Make stuff animate on load
