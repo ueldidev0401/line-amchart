@@ -26,6 +26,7 @@
             root.setThemes([ am5themes_Animated.new(root) ]);
 
             var values = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,270000000,47000000,25000000,50100000,155000000 ];
+            var dayOfWeek = ['Monday', 'Wednesday', 'Friday'];
             // var values = [12,9,17,11,25];
             var newDate = [];
             var chartData = generateChartData();
@@ -33,7 +34,6 @@
                 var chartData = [];
                 var firstDate = new Date();
                 firstDate.setDate(firstDate.getDate() - 5);
-
                 for (var i = 0; i < values.length + 3; i++) {
                     newDate = new Date(firstDate);
                     newDate.setDate(newDate.getDate() + i);
@@ -45,6 +45,7 @@
                         }
                     });
                 }
+    console.log("org chartData = ", chartData);
                 return chartData;
             }
             // Create chart
@@ -80,6 +81,8 @@
                 }),
                 tooltip: am5.Tooltip.new(root, {})
             }));
+            // xAxis.get("dateFormats")["day"] = "EEEE";
+            // xAxis.get("periodChangeDateFormats")["day"] = "EEEE";
 
             var yAxis = chart.yAxes.push( am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.1,
@@ -128,12 +131,10 @@
             
             var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-                var dateX = xAxis.coordinateToPosition(event.clientX - 150);
+                var dateX = xAxis.coordinateToPosition(event.clientX - 100);
                 var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
-console.log("org chartData = ", chartData);
 
                 var value = Math.floor(yAxis.positionToValue(mouseY));
-console.log("Math.floor(xAxis.positionToDate(dateX)) = ", Math.floor(xAxis.positionToDate(dateX)));
                 if(chartData[chartData.length - 3].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 4].date <= Math.floor(xAxis.positionToDate(dateX))) {
                     values.push(value);
                 }
@@ -142,7 +143,8 @@ console.log("Math.floor(xAxis.positionToDate(dateX)) = ", Math.floor(xAxis.posit
                     values.push(value);
                 }
                 chartData = generateChartData();
-                chartData[chartData.length - 4].strokeSettings.stroke = am5.color(0x990000);
+                // chartData[chartData.length - 4].strokeSettings.stroke = am5.color(0x990000);
+                
                 series.data.setAll(chartData);
             });
             
