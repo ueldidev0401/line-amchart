@@ -131,20 +131,23 @@
             
             var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-                var dateX = xAxis.coordinateToPosition(event.clientX - 100);
+                var dateX = xAxis.coordinateToPosition(event.clientX) - 0.1;
                 var mouseY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
 
                 var value = Math.floor(yAxis.positionToValue(mouseY));
-                if(chartData[chartData.length - 3].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 4].date <= Math.floor(xAxis.positionToDate(dateX))) {
+                if(chartData[chartData.length - 3].date >= xAxis.positionToDate(dateX) && chartData[chartData.length - 4].date <= xAxis.positionToDate(dateX)) {
                     values.push(value);
                 }
-                else if(chartData[chartData.length - 4].date >= Math.floor(xAxis.positionToDate(dateX)) && chartData[chartData.length - 5].date <= Math.floor(xAxis.positionToDate(dateX))) {
+                else if(chartData[chartData.length - 4].date >= xAxis.positionToDate(dateX) && chartData[chartData.length - 5].date <= xAxis.positionToDate(dateX)) {
                     values.pop();
                     values.push(value);
                 }
                 chartData = generateChartData();
-                // chartData[chartData.length - 4].strokeSettings.stroke = am5.color(0x990000);
-                
+                chartData[chartData.length - 4].strokeSettings.stroke = am5.color(0x990000);
+                series.strokes.template.setAll({
+                    strokeWidth: 2,
+                    templateField: "strokeSettings"
+                });
                 series.data.setAll(chartData);
             });
             
