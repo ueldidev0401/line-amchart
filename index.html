@@ -97,6 +97,7 @@
 
             var yAxis = chart.yAxes.push( am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.1,
+                maxZoomFactor: 100000000, // Adjust this value to set the maximum zoom depth
                 renderer: am5xy.AxisRendererY.new(root, {}),
                 tooltip: am5.Tooltip.new(root, {})
             }));
