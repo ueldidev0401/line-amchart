@@ -142,7 +142,7 @@
             
             var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-                var positionX = xAxis.coordinateToPosition(event.clientX - 100);
+                var positionX = xAxis.coordinateToPosition(event.clientX - 150);
                 var positionY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
                 var dateX = xAxis.positionToDate(positionX);
                 var value = Math.floor(yAxis.positionToValue(positionY));
@@ -153,7 +153,6 @@
                 //     values.pop();
                 //     values.push(value);
                 // }
-        console.log("dateX = ", dateX);
                 for (var i = chartData.length - 4 ; i >= 20 ; i --) {
                     if(chartData[i].date > dateX && chartData[i - 1].date < dateX) {
                         if(value <= chartData[i].value + 2000000 && value >= chartData[i].value - 2000000) {
