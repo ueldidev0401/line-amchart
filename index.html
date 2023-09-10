@@ -10,7 +10,7 @@
 
         #chartdiv {
             width: 1500;
-            height: 500px;
+            height: 600px;
         }															
     </style>	
   </head>
@@ -25,7 +25,7 @@
 
             root.setThemes([ am5themes_Animated.new(root) ]);
 
-            var values = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,270000000,47000000,25000000,50100000,155000000 ];
+            var values = [25000000,255000000,85000000,30000000,120000000,225000000,60000000,210000000,215600000,13500000,40000000,265000000, 35000000,83000000,112000000,290000000,47000000,25000000,50100000,155000000 ];
             var dayOfWeek = ['Monday', 'Wednesday', 'Friday'];
             // var values = [12,9,17,11,25];
             var newDate = [];
@@ -153,9 +153,14 @@
                 //     values.pop();
                 //     values.push(value);
                 // }
+        console.log("dateX = ", dateX);
                 for (var i = chartData.length - 4 ; i >= 20 ; i --) {
-                     if(chartData[i].date >= dateX && chartData[i - 1].date <= dateX) {
-                        values.splice(i, 1, value);
+                    if(chartData[i].date > dateX && chartData[i - 1].date < dateX) {
+                        if(value <= chartData[i].value + 2000000 && value >= chartData[i].value - 2000000) {
+                            values = values.slice(0, i);
+                        } else {
+                            values.splice(i, 1, value);
+                        }
                     }
                 }
                 chartData = generateChartData();
