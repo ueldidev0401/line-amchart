@@ -142,7 +142,7 @@
             
             var chartDiv = document.getElementById("chartdiv");
             chart.plotContainer.events.on("click", function(){
-                var positionX = xAxis.coordinateToPosition(event.clientX - 150);
+                var positionX = xAxis.coordinateToPosition(event.clientX - 100);
                 var positionY = yAxis.coordinateToPosition(event.clientY - chartDiv.getBoundingClientRect().top - 13);
                 var dateX = xAxis.positionToDate(positionX);
                 var value = Math.floor(yAxis.positionToValue(positionY));
